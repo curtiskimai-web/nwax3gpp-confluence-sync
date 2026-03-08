@@ -433,6 +433,9 @@ def _parse_html_to_struct(html_content: str, stem: str) -> dict:
     full_text_parts = []
     current_section = {"level": 0, "heading": title, "content": [], "tables": []}
 
+    # XML 누출 감지 패턴 (drawingml, OpenXML 내부 스키마가 텍스트로 포함된 경우)
+    XML_LEAK = re.compile(r'<\?xml\b|xmlns:|schemas\.openxmlformats\.org|schemas\.microsoft\.com')
+
     def strip_tags(s):
         return re.sub(r"<[^>]+>", "", s).strip()
 
@@ -440,6 +443,9 @@ def _parse_html_to_struct(html_content: str, stem: str) -> dict:
         tag = m.group(1).lower()
         content = strip_tags(m.group(0))
         if not content:
+            continue
+        # XML 내부 스키마 누출 콘텐츠 제거
+        if XML_LEAK.search(content):
             continue
         if tag.startswith("h"):
             level = int(tag[1])
