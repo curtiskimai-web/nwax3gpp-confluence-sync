@@ -1,0 +1,12 @@
+google-api-python-client>=2.100.0
+google-auth>=2.23.0
+google-auth-oauthlib>=1.1.0
+google-auth-httplib2>=0.1.1
+python-docx>=1.1.0
+mammoth>=1.6.0
+atlassian-python-api>=3.41.0
+pyyaml>=6.0
+python-dotenv>=1.0.0
+tenacity>=8.2.0
+rich>=13.0.0
+olefile>=0.47
