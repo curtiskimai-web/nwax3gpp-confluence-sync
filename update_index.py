@@ -61,14 +61,6 @@ def build_index_body(ts_pages, tr_pages):
     today = date.today().strftime("%Y-%m-%d")
 
     body = f"""
-<ac:structured-macro ac:name="info" ac:schema-version="1">
-<ac:parameter ac:name="title">3GPP 38 Series Specifications Index</ac:parameter>
-<ac:rich-text-body>
-<p>Total: <strong>{total}</strong> specifications &nbsp;|&nbsp; TS: <strong>{ts_count}</strong> &nbsp;|&nbsp; TR: <strong>{tr_count}</strong></p>
-<p>마지막 업데이트: {today}</p>
-</ac:rich-text-body>
-</ac:structured-macro>
-
 <table style="width:100%;border-collapse:collapse;table-layout:fixed">
 <colgroup><col style="width:4%"/><col style="width:12%"/><col style="width:84%"/></colgroup>
 <tbody>
@@ -80,6 +72,8 @@ def build_index_body(ts_pages, tr_pages):
 {rows}
 </tbody>
 </table>
+
+<p style="text-align:left;margin-top:12px;">Total: <strong>{total}</strong> specifications &nbsp;|&nbsp; TS: <strong>{ts_count}</strong> &nbsp;|&nbsp; TR: <strong>{tr_count}</strong> &nbsp;|&nbsp; 마지막 업데이트: {today}</p>
 """
     return body
 
