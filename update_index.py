@@ -37,20 +37,23 @@ def spec_sort_key(spec_no: str):
 def build_index_body(ts_pages, tr_pages):
     esc = html.escape
 
-    def make_table(pages, doc_type):
-        rows = ""
-        for spec_no, title, pid, desc in pages:
-            page_url = f"{base_url}/wiki/spaces/{space_key}/pages/{pid}"
-            desc_cell = esc(desc) if desc else '<em style="color:#999;">-</em>'
-            rows += (
-                f'<tr>'
-                f'<td style="white-space:nowrap;padding:4px 8px;border:1px solid #ddd;text-align:center;">{esc(doc_type)}</td>'
-                f'<td style="white-space:nowrap;padding:4px 8px;border:1px solid #ddd;">'
-                f'<a href="{page_url}">{esc(spec_no)}</a></td>'
-                f'<td style="padding:4px 8px;border:1px solid #ddd;word-break:break-word;">{desc_cell}</td>'
-                f'</tr>'
-            )
-        return rows
+    all_pages = [(doc_type, spec_no, title, pid, desc)
+                 for doc_type, pages in [("TS", ts_pages), ("TR", tr_pages)]
+                 for spec_no, title, pid, desc in pages]
+    all_pages.sort(key=lambda x: spec_sort_key(x[1]))
+
+    rows = ""
+    for doc_type, spec_no, title, pid, desc in all_pages:
+        page_url = f"{base_url}/wiki/spaces/{space_key}/pages/{pid}"
+        desc_cell = esc(desc) if desc else '<em style="color:#999;">-</em>'
+        rows += (
+            f'<tr>'
+            f'<td style="white-space:nowrap;padding:4px 8px;border:1px solid #ddd;text-align:center;">{esc(doc_type)}</td>'
+            f'<td style="white-space:nowrap;padding:4px 8px;border:1px solid #ddd;">'
+            f'<a href="{page_url}">{esc(spec_no)}</a></td>'
+            f'<td style="padding:4px 8px;border:1px solid #ddd;word-break:break-word;">{desc_cell}</td>'
+            f'</tr>'
+        )
 
     total = len(ts_pages) + len(tr_pages)
     ts_count = len(ts_pages)
@@ -66,7 +69,6 @@ def build_index_body(ts_pages, tr_pages):
 </ac:rich-text-body>
 </ac:structured-macro>
 
-<h2>Technical Specifications (TS) — {ts_count}개</h2>
 <table style="width:100%;border-collapse:collapse;table-layout:fixed">
 <colgroup><col style="width:4%"/><col style="width:12%"/><col style="width:84%"/></colgroup>
 <tbody>
@@ -75,20 +77,7 @@ def build_index_body(ts_pages, tr_pages):
 <th style="padding:6px 8px;border:1px solid #ddd;background:#f4f5f7;">Spec No.</th>
 <th style="padding:6px 8px;border:1px solid #ddd;background:#f4f5f7;">Title</th>
 </tr>
-{make_table(ts_pages, "TS")}
-</tbody>
-</table>
-
-<h2>Technical Reports (TR) — {tr_count}개</h2>
-<table style="width:100%;border-collapse:collapse;table-layout:fixed">
-<colgroup><col style="width:4%"/><col style="width:12%"/><col style="width:84%"/></colgroup>
-<tbody>
-<tr>
-<th style="padding:6px 8px;border:1px solid #ddd;background:#f4f5f7;text-align:center;">Type</th>
-<th style="padding:6px 8px;border:1px solid #ddd;background:#f4f5f7;">Spec No.</th>
-<th style="padding:6px 8px;border:1px solid #ddd;background:#f4f5f7;">Title</th>
-</tr>
-{make_table(tr_pages, "TR")}
+{rows}
 </tbody>
 </table>
 """
@@ -121,6 +110,7 @@ def main():
 
     ts_pages.sort(key=lambda x: spec_sort_key(x[0]))
     tr_pages.sort(key=lambda x: spec_sort_key(x[0]))
+    # build_index_body 내부에서 통합 정렬됨
 
     print(f"TS: {len(ts_pages)}, TR: {len(tr_pages)}")
 
