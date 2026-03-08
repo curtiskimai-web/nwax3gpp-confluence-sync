@@ -1,6 +1,7 @@
-# 3GPP FTP → Confluence Auto-Sync
+# 3GPP 38 Series Specification → Confluence 자동 게시 파이프라인
 
-Google Drive에 저장된 3GPP 38 시리즈 표준 문서(zip)를 다운로드·파싱하여 Confluence에 자동 게시하고, 품질 유지를 위한 사후 처리 스크립트를 포함한 파이프라인.
+Google Drive에 저장된 3GPP 38 시리즈 표준 문서(zip)를 다운로드·파싱하여 Confluence 페이지로 자동 게시하는 파이프라인.
+doc/docx 파싱, 페이지 품질 관리(제목 정규화, 포맷 통일, 중복 제거), 인덱스 자동 갱신, 페이지 순서 정렬까지 포함한 종합 관리 도구.
 
 ---
 
