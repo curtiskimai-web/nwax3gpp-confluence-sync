@@ -6,6 +6,7 @@
 import os
 import re
 import html
+from datetime import date
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -54,13 +55,14 @@ def build_index_body(ts_pages, tr_pages):
     total = len(ts_pages) + len(tr_pages)
     ts_count = len(ts_pages)
     tr_count = len(tr_pages)
+    today = date.today().strftime("%Y-%m-%d")
 
     body = f"""
 <ac:structured-macro ac:name="info" ac:schema-version="1">
 <ac:parameter ac:name="title">3GPP 38 Series Specifications Index</ac:parameter>
 <ac:rich-text-body>
 <p>Total: <strong>{total}</strong> specifications &nbsp;|&nbsp; TS: <strong>{ts_count}</strong> &nbsp;|&nbsp; TR: <strong>{tr_count}</strong></p>
-<p>마지막 업데이트: 2026-03-08 &nbsp;|&nbsp; 인코딩 오류 수정 완료 &nbsp;|&nbsp; 본문/표 넓이 통일 적용</p>
+<p>마지막 업데이트: {today}</p>
 </ac:rich-text-body>
 </ac:structured-macro>
 
